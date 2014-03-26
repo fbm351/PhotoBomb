@@ -8,9 +8,12 @@
 
 #import "FMPhotosViewController.h"
 #import "FMPhotoCell.h"
+#import "FMDetailViewController.h"
+#import "FMPresentDetailTransition.h"
+#import "FMDismissDetailTransition.h"
 #import <SimpleAuth/SimpleAuth.h>
 
-@interface FMPhotosViewController ()
+@interface FMPhotosViewController () <UIViewControllerTransitioningDelegate>
 
 @property (nonatomic) NSString *accessToken;
 @property (nonatomic) NSArray *photos;
@@ -39,11 +42,13 @@
     self.accessToken = [userDefaults objectForKey:@"accessToken"];
     
     if (self.accessToken == nil) {
-        [SimpleAuth authorize:@"instagram" completion:^(NSDictionary *responseObject, NSError *error) {
-            NSString *accessToken = responseObject[@"credentials"][@"token"];
+        [SimpleAuth authorize:@"instagram" options:@{@"scope" : @[@"likes"]} completion:^(NSDictionary *responseObject, NSError *error) {
+            self.accessToken = responseObject[@"credentials"][@"token"];
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults setObject:accessToken forKey:@"accessToken"];
+            [userDefaults setObject:self.accessToken forKey:@"accessToken"];
             [userDefaults synchronize];
+            
+            [self refresh];
         }];
     }
     else
@@ -63,6 +68,16 @@
     cell.backgroundColor = [UIColor lightGrayColor];
     cell.photo = self.photos[indexPath.row];
     return cell;
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *photo = self.photos[indexPath.row];
+    FMDetailViewController *viewController = [[FMDetailViewController alloc] init];
+    viewController.modalPresentationStyle = UIModalPresentationCustom;
+    viewController.transitioningDelegate = self;
+    viewController.photo = photo;
+    [self presentViewController:viewController animated:YES completion:nil];
 }
 
 #pragma mark - Helper Methods
@@ -86,6 +101,16 @@
     }];
     [task resume];
     
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+{
+    return [[FMPresentDetailTransition alloc] init];
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+    return [[FMDismissDetailTransition alloc] init];
 }
 
 @end

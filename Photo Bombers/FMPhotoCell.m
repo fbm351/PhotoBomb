@@ -7,6 +7,7 @@
 //
 
 #import "FMPhotoCell.h"
+#import "FMPhotoController.h"
 
 @implementation FMPhotoCell
 
@@ -14,8 +15,9 @@
 {
     _photo = photo;
     
-    NSURL *url = [[NSURL alloc] initWithString:_photo[@"images"][@"standard_resolution"][@"url"]];
-    [self downloadPhotoWithURL:url];
+    [FMPhotoController imageForPhoto:_photo size:@"thumbnail" completion:^(UIImage *image) {
+        self.imageView.image = image;
+    }];
     
 }
 
@@ -25,6 +27,10 @@
     if (self) {
         // Initialization code
         self.imageView = [[UIImageView alloc] init];
+        UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(like)];
+        doubleTap.numberOfTapsRequired = 2;
+        [self addGestureRecognizer:doubleTap];
+        
         [self.contentView addSubview:self.imageView];
     }
     return self;
@@ -37,20 +43,33 @@
     self.imageView.frame = self.contentView.bounds;
 }
 
-- (void)downloadPhotoWithURL:(NSURL *)url
+- (void)like
 {
+    NSString *accessToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"accessToken"];
     NSURLSession *session = [NSURLSession sharedSession];
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
-        NSData *data = [[NSData alloc] initWithContentsOfURL:location];
-        UIImage *image = [[UIImage alloc] initWithData:data];
-        
+    NSString *urlString = [[NSString alloc] initWithFormat:@"https://api.instagram.com/v1/media/%@/likes?access_token=%@", self.photo[@"id"], accessToken];
+    NSURL *url = [[NSURL alloc] initWithString:urlString];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    request.HTTPMethod = @"POST";
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSLog(@"Response: %@", response);
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.imageView.image = image;
+            [self showLikeCompletion];
         });
     }];
-    
     [task resume];
+    
+    
+}
+
+- (void)showLikeCompletion
+{
+    NSLog(@"Link: %@", self.photo[@"link"]);
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Liked!" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
+    [alertView show];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [alertView dismissWithClickedButtonIndex:0 animated:YES];
+    });
 }
 
 @end
