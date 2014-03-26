@@ -8,6 +8,7 @@
 
 #import "FMAppDelegate.h"
 #import "FMPhotosViewController.h"
+#import <SimpleAuth/SimpleAuth.h>
 
 
 @implementation FMAppDelegate
@@ -18,6 +19,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    SimpleAuth.configuration[@"instagram"] = @{@"client_id" : @"7443a6b0577043078fc8c2d4eb117fcc", SimpleAuthRedirectURIKey : @"photobombers://auth/instagram"};
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     FMPhotosViewController *photosViewController = [[FMPhotosViewController alloc] init];

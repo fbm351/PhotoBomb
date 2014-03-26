@@ -10,13 +10,21 @@
 
 @implementation FMPhotoCell
 
+-(void)setPhoto:(NSDictionary *)photo
+{
+    _photo = photo;
+    
+    NSURL *url = [[NSURL alloc] initWithString:_photo[@"images"][@"standard_resolution"][@"url"]];
+    [self downloadPhotoWithURL:url];
+    
+}
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
         self.imageView = [[UIImageView alloc] init];
-        self.imageView.image = [UIImage imageNamed:@"Treehouse"];
         [self.contentView addSubview:self.imageView];
     }
     return self;
@@ -29,13 +37,20 @@
     self.imageView.frame = self.contentView.bounds;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+- (void)downloadPhotoWithURL:(NSURL *)url
 {
-    // Drawing code
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+        NSData *data = [[NSData alloc] initWithContentsOfURL:location];
+        UIImage *image = [[UIImage alloc] initWithData:data];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.imageView.image = image;
+        });
+    }];
+    
+    [task resume];
 }
-*/
 
 @end

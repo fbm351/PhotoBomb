@@ -8,8 +8,12 @@
 
 #import "FMPhotosViewController.h"
 #import "FMPhotoCell.h"
+#import <SimpleAuth/SimpleAuth.h>
 
 @interface FMPhotosViewController ()
+
+@property (nonatomic) NSString *accessToken;
+@property (nonatomic) NSArray *photos;
 
 @end
 
@@ -31,26 +35,57 @@
     self.collectionView.backgroundColor = [UIColor whiteColor];
     self.title = @"Photo Bombers";
     
-    NSURLSession *session = [NSURLSession sharedSession];
-    NSURL *url = [[NSURL alloc] initWithString:@"http://blog.teamtreehouse.com/api/get_recent_summary/"];
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
-        NSString *text = [[NSString alloc] initWithContentsOfURL:location encoding:NSUTF8StringEncoding error:nil];
-        NSLog(@"Response: %@", text);
-    }];
-    [task resume];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    self.accessToken = [userDefaults objectForKey:@"accessToken"];
+    
+    if (self.accessToken == nil) {
+        [SimpleAuth authorize:@"instagram" completion:^(NSDictionary *responseObject, NSError *error) {
+            NSString *accessToken = responseObject[@"credentials"][@"token"];
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults setObject:accessToken forKey:@"accessToken"];
+            [userDefaults synchronize];
+        }];
+    }
+    else
+    {
+        [self refresh];
+    }
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 10;
+    return [self.photos count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"photo" forIndexPath:indexPath];
+    FMPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"photo" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor lightGrayColor];
+    cell.photo = self.photos[indexPath.row];
     return cell;
+}
+
+#pragma mark - Helper Methods
+
+- (void)refresh
+{
+    //NSLog(@"Signed in!");
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSString *urlString = [[NSString alloc] initWithFormat:@"https://api.instagram.com/v1/tags/photobomb/media/recent?access_token=%@", self.accessToken];
+    NSURL *url = [[NSURL alloc] initWithString:urlString];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+        NSData *data = [[NSData alloc] initWithContentsOfURL:location];
+        NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+        self.photos = [responseDictionary valueForKeyPath:@"data"];
+        //NSLog(@"Photos: %@", self.photos);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.collectionView reloadData];
+        });
+    }];
+    [task resume];
+    
 }
 
 @end
