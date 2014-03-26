@@ -22,6 +22,8 @@
 		D31FD26318E1B84300575953 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D31FD24718E1B84300575953 /* CoreData.framework */; };
 		D31FD26B18E1B84300575953 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D31FD26918E1B84300575953 /* InfoPlist.strings */; };
 		D31FD26D18E1B84300575953 /* Photo_BombersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D31FD26C18E1B84300575953 /* Photo_BombersTests.m */; };
+		D31FD27818E1B89200575953 /* FMPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D31FD27718E1B89200575953 /* FMPhotosViewController.m */; };
+		D34BD40718E1C10500735192 /* FMPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D34BD40618E1C10500735192 /* FMPhotoCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,10 @@
 		D31FD26818E1B84300575953 /* Photo BombersTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Photo BombersTests-Info.plist"; sourceTree = "<group>"; };
 		D31FD26A18E1B84300575953 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D31FD26C18E1B84300575953 /* Photo_BombersTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Photo_BombersTests.m; sourceTree = "<group>"; };
+		D31FD27618E1B89200575953 /* FMPhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMPhotosViewController.h; sourceTree = "<group>"; };
+		D31FD27718E1B89200575953 /* FMPhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMPhotosViewController.m; sourceTree = "<group>"; };
+		D34BD40518E1C10500735192 /* FMPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMPhotoCell.h; sourceTree = "<group>"; };
+		D34BD40618E1C10500735192 /* FMPhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMPhotoCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +126,10 @@
 				D31FD25818E1B84300575953 /* Images.xcassets */,
 				D31FD25518E1B84300575953 /* Photo_Bombers.xcdatamodeld */,
 				D31FD24A18E1B84300575953 /* Supporting Files */,
+				D31FD27618E1B89200575953 /* FMPhotosViewController.h */,
+				D31FD27718E1B89200575953 /* FMPhotosViewController.m */,
+				D34BD40518E1C10500735192 /* FMPhotoCell.h */,
+				D34BD40618E1C10500735192 /* FMPhotoCell.m */,
 			);
 			path = "Photo Bombers";
 			sourceTree = "<group>";
@@ -249,8 +259,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D34BD40718E1C10500735192 /* FMPhotoCell.m in Sources */,
 				D31FD25018E1B84300575953 /* main.m in Sources */,
 				D31FD25718E1B84300575953 /* Photo_Bombers.xcdatamodeld in Sources */,
+				D31FD27818E1B89200575953 /* FMPhotosViewController.m in Sources */,
 				D31FD25418E1B84300575953 /* FMAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -448,6 +460,7 @@
 				D31FD27218E1B84300575953 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D31FD27318E1B84300575953 /* Build configuration list for PBXNativeTarget "Photo BombersTests" */ = {
 			isa = XCConfigurationList;
@@ -456,6 +469,7 @@
 				D31FD27518E1B84300575953 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
