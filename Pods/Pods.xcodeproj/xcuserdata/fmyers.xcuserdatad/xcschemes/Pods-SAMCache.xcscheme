@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7664388A302948F8A5EFE366"
-               BuildableName = "libPods-CMDQueryStringSerialization.a"
-               BlueprintName = "Pods-CMDQueryStringSerialization"
+               BlueprintIdentifier = "853F66F4E6DA4850B58FB4D7"
+               BuildableName = "libPods-SAMCache.a"
+               BlueprintName = "Pods-SAMCache"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

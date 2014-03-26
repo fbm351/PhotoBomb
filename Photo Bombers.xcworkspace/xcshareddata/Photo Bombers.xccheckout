@@ -5,19 +5,19 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>69DD30E7-7A5A-4876-93E3-1AA368088F3B</string>
+	<string>D7D428EC-9FFF-4FB3-8A1A-B5FC8E1719CB</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Photo Bombers</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>80AFF5D3-DE8B-4021-9EF3-E08C24C3AD30</key>
+		<key>5CD84A9F-CF5D-4AA0-A0A0-12A693DCD92A</key>
 		<string>https://github.com/fbm351/PhotoBomb.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Photo Bombers.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>80AFF5D3-DE8B-4021-9EF3-E08C24C3AD30</key>
+		<key>5CD84A9F-CF5D-4AA0-A0A0-12A693DCD92A</key>
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
@@ -25,16 +25,16 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>80AFF5D3-DE8B-4021-9EF3-E08C24C3AD30</string>
+	<string>5CD84A9F-CF5D-4AA0-A0A0-12A693DCD92A</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>80AFF5D3-DE8B-4021-9EF3-E08C24C3AD30</string>
+			<string>5CD84A9F-CF5D-4AA0-A0A0-12A693DCD92A</string>
 			<key>IDESourceControlWCCName</key>
-			<string>Photo Bombers</string>
+			<string>PhotoBomb</string>
 		</dict>
 	</array>
 </dict>
